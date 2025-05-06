@@ -109,7 +109,7 @@ export default function AboutSection() {
           {/* Founder Info */}
           <motion.div className="text-left sm:text-center" variants={fadeInUp}>
             <p className="text-base sm:text-lg text-gray-800">
-              <span className="font-medium text-black">Founder:</span>{" "}
+              <span className="font-medium text-black">Co-Founder:</span>{" "}
               <a
                 href="https://www.linkedin.com/in/jenil-kakadiya/"
                 target="_blank"
