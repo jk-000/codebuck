@@ -1,29 +1,67 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import dynamic from "next/dynamic";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
-// Dynamically import Player with SSR disabled
+// SSR-safe Lottie import
 const LottiePlayer = dynamic(
   () => import("@lottiefiles/react-lottie-player").then((mod) => mod.Player),
   { ssr: false }
 );
 
+// Animation Variants
+const leftFade = {
+  hidden: { opacity: 0, x: -60 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 1.5, ease: "easeOut" },
+  },
+};
+
+const rightFade = {
+  hidden: { opacity: 0, x: 60 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 1.5, ease: "easeOut" },
+  },
+};
+
+const bottomFade = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 1.5, ease: "easeOut" },
+  },
+};
+
 export default function HomeSection() {
+  const controls = useAnimation();
+  const [ref, inView] = useInView({ threshold: 0.2, triggerOnce: true });
+
+  useEffect(() => {
+    if (inView) controls.start("visible");
+  }, [inView, controls]);
+
   return (
-    <motion.section
-      className="flex flex-col-reverse md:flex-row items-center justify-between text-center md:text-left py-20 md:py-40 px-4 md:px-6 bg-white text-black gap-10 font-sans"
-      initial={{ opacity: 0, y: -40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1.0 }}
+    <section
+      ref={ref}
+      className="flex flex-col-reverse md:flex-row items-center justify-between text-center md:text-left md:pt-45 pt-30 pb-20 px-6 md:px-12 bg-white text-black gap-10 font-sans"
     >
       {/* Left Text Content */}
-      <div className="flex-1">
+      <motion.div
+        className="flex-1 space-y-6"
+        variants={leftFade}
+        initial="hidden"
+        animate={controls}
+      >
         <motion.h1
-          className="text-3xl md:text-5xl font-extrabold mb-6 leading-tight"
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 0.2 }}
+          className="text-3xl md:text-5xl font-extrabold leading-tight text-gray-900 tracking-tight"
+          variants={leftFade}
         >
           We Build{" "}
           <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
@@ -33,39 +71,43 @@ export default function HomeSection() {
         </motion.h1>
 
         <motion.p
-          className="text-lg md:text-xl text-gray-700 mb-6 font-medium"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.4 }}
+          className="text-lg md:text-xl text-gray-700 font-normal leading-relaxed"
+          variants={leftFade}
         >
           Offering complete solutions in{" "}
-          <span className="font-semibold">Web Development</span>,
-          <span className="font-semibold">App Development</span>,{" "}
-          <span className="font-semibold">UI/UX Design</span>, and{" "}
-          <span className="font-semibold">SEO Optimization</span> to help your
-          business grow online.
+          <span className="font-medium text-gray-900">Web Development</span>,
+          <span className="font-medium text-gray-900">App Development</span>,{" "}
+          <span className="font-medium text-gray-900">UI/UX Design</span>, and{" "}
+          <span className="font-medium text-gray-900">SEO Optimization</span>{" "}
+          to help your business grow online.
         </motion.p>
 
         <motion.a
           href="/portfolio"
-          whileHover={{
-            scale: 1.1,
-            backgroundColor: "#2563eb",
-            boxShadow: "0px 0px 12px #2563eb",
+          variants={bottomFade}
+          className="relative inline-block px-6 py-3 border-2 border-blue-600 text-blue-600 font-medium text-base rounded-full overflow-hidden group transition-colors duration-300"
+          animate={{
+            y: [0, -2, 0, 2, 0],
           }}
-          transition={{ type: "spring", stiffness: 300 }}
-          className="inline-block bg-blue-600 text-white px-6 py-4 rounded-lg font-semibold hover:cursor-pointer"
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
         >
-          🚀 Explore Our Work
+          <span className="relative z-10 group-hover:text-white transition-colors duration-300">
+            🚀 Explore Our Work
+          </span>
+          <span className="absolute inset-0 bg-blue-600 scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-in-out z-0"></span>
         </motion.a>
-      </div>
+      </motion.div>
 
       {/* Right Lottie Animation */}
       <motion.div
         className="flex-1 flex justify-center"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1, delay: 0.5 }}
+        variants={rightFade}
+        initial="hidden"
+        animate={controls}
       >
         <div className="p-2">
           <LottiePlayer
@@ -75,12 +117,12 @@ export default function HomeSection() {
             style={{
               height: "auto",
               width: "100%",
-              maxWidth: "400px", // Set a max-width for the animation
-              maxHeight: "400px", // Set a max-height for the animation
+              maxWidth: "450px",
+              maxHeight: "450px",
             }}
           />
         </div>
       </motion.div>
-    </motion.section>
+    </section>
   );
 }

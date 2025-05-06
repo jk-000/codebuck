@@ -2,6 +2,25 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.4,
+    },
+  },
+};
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 1.5, ease: "easeOut" },
+  },
+};
 
 export default function PortfolioSection() {
   const [visibleCount, setVisibleCount] = useState(6);
@@ -23,7 +42,7 @@ export default function PortfolioSection() {
       description:
         "A high-performance movie downloading website built using the MERN stack and styled with Tailwind CSS.",
       image: "/2.png",
-      link: "https://jkhub.site/",
+      link: "https://jkhubmovies.site/",
     },
     {
       title: "ZARA – Mobile App UI Redesign",
@@ -37,7 +56,7 @@ export default function PortfolioSection() {
       description:
         "A seamless real-time chat web app developed using PHP, enabling instant communication between users.",
       image: "/1.png",
-      link: "https://chat.jkhub.site/",
+      link: "https://chat.jkhubmovies.site/",
     },
     {
       title: "Modern E-Commerce Store",
@@ -51,7 +70,7 @@ export default function PortfolioSection() {
       description:
         "A professional web portal for car buyers to explore brands, submit inquiries, and get offers — built with PHP.",
       image: "/4.png",
-      link: "https://car.jkhub.site/",
+      link: "https://car.jkhubmovies.site/",
     },
     {
       title: "Real-Time Food Delivery App",
@@ -72,7 +91,7 @@ export default function PortfolioSection() {
       description:
         "A fully responsive, full-stack e-commerce platform built using PHP, offering smooth user experience and modern design.",
       image: "/7.png",
-      link: "https://paperpulse.jkhub.site/",
+      link: "https://paperpulse.jkhubmovies.site/",
     },
     {
       title: "Restaurant Logo Design",
@@ -142,15 +161,39 @@ export default function PortfolioSection() {
   const visibleProjects = projects.slice(0, visibleCount);
 
   return (
-    <section className="bg-white py-20 px-6 text-center">
-      <h2 className="text-3xl md:text-4xl font-bold mb-10 text-black">
-        Our Work
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto">
+    <motion.section
+      className="bg-white py-20 px-6 text-center md:pt-10 pt-30"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: false, amount: 0.2 }}
+      variants={containerVariants}
+    >
+      <motion.div
+        className="relative inline-block mb-14"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+      >
+        <h2 className="text-3xl md:text-4xl font-medium text-black text-center">
+          Our Work
+        </h2>
+
+        {/* Line 1 - Blue */}
+        <span className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-24 h-0.5 rounded-full bg-blue-600 shadow-md"></span>
+
+        {/* Line 2 - Fuchsia */}
+        <span className="absolute left-1/2 transform -translate-x-1/2 mt-5 w-32 h-0.5 rounded-full bg-fuchsia-400 shadow-md"></span>
+      </motion.div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto mt-10">
         {visibleProjects.map((project, index) => (
-          <div
+          <motion.div
             key={index}
             className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-transform transform hover:scale-105"
+            variants={fadeInUp} // Ensure this is present for animation
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 1.5, delay: index * 0.2 }} // Add delay for staggered animation
           >
             <img
               src={project.image}
@@ -161,7 +204,9 @@ export default function PortfolioSection() {
               <h3 className="text-xl font-semibold mb-2 text-black transition-all hover:text-blue-600">
                 {project.title}
               </h3>
-              <p className="text-sm text-gray-600 mb-4">{project.description}</p>
+              <p className="text-sm text-gray-600 mb-4">
+                {project.description}
+              </p>
               <a
                 href={project.link}
                 target="_blank"
@@ -170,18 +215,18 @@ export default function PortfolioSection() {
                 Visit Project
               </a>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
 
       {visibleCount < projects.length && (
         <button
           onClick={handleViewMore}
-          className="mt-10 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all"
+          className="cursor-pointer mt-10 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all"
         >
           View More
         </button>
       )}
-    </section>
+    </motion.section>
   );
 }

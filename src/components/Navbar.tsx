@@ -45,6 +45,7 @@ export default function Navbar() {
   const navItems = [
     ["/", "Home"],
     ["/about", "About"],
+    ["/service", "Service"],
     ["/technology", "Technology"],
     ["/team", "Team"],
     ["/portfolio", "Portfolio"],
@@ -58,7 +59,7 @@ export default function Navbar() {
           className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-white text-black w-[95%] md:w-[90%] lg:w-[100%] max-w-6xl px-3 sm:px-6 py-2 sm:py-3 flex justify-between items-center shadow-lg rounded-xl border border-black/10"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 1.5, ease: "easeInOut" }}
         >
           <Link href="/">
             <img
@@ -68,19 +69,20 @@ export default function Navbar() {
             />
           </Link>
 
-          <div className="space-x-4 sm:space-x-8 hidden md:flex font-medium uppercase text-sm sm:text-base">
+          <div className="space-x-4 sm:space-x-8 hidden md:flex font-normal text-sm sm:text-base uppercase">
             {navItems.map(([href, label]) => (
               <motion.div
                 key={href}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.05 }}
+                className="relative group"
               >
                 <Link
                   href={href}
-                  className="hover:text-blue-600 transition duration-300"
+                  className="transition duration-300 text-black hover:text-black"
                 >
                   {label}
                 </Link>
+                <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
               </motion.div>
             ))}
           </div>
@@ -129,7 +131,7 @@ export default function Navbar() {
                 </button>
               </div>
 
-              <nav className="flex flex-col space-y-5 text-base uppercase font-semibold text-gray-800">
+              <nav className="flex flex-col space-y-5 text-base uppercase font-normal text-gray-800">
                 {navItems.map(([href, label]) => (
                   <Link
                     key={href}
