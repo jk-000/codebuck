@@ -1,6 +1,6 @@
 'use client'
 
-import { Instagram, Github, Linkedin } from 'lucide-react'
+import { Instagram, Reddit, Linkedin } from 'lucide-react'
 import Link from 'next/link'
 
 export default function Footer() {
@@ -37,11 +37,11 @@ export default function Footer() {
 
           <h3 className="text-lg font-medium mb-2">Follow CodeBuck</h3>
           <div className="flex md:justify-start gap-4 mt-2">
-            <a href="https://instagram.com/codebuck" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400 transition">
+            <a href="https://www.instagram.com/codebuck.tech/" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400 transition">
               <Instagram />
             </a>
-            <a href="https://github.com/codebuck" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400 transition">
-              <Github />
+            <a href="https://www.reddit.com/user/Beginning_Brother209/" target="_blank" rel="noopener noreferrer" className="hover:text-orange-400 transition">
+              <Reddit />
             </a>
             <a href="https://linkedin.com/company/codebuck" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition">
               <Linkedin />
