@@ -27,7 +27,7 @@ export default function ContactSection() {
     e.preventDefault()
     setIsSubmitting(true)
     try {
-      const response = await fetch('https://formspree.io/f/mdkgewen', {
+      const response = await fetch('https://formspree.io/f/xeogkvlj', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify(formData),
